@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<!-- SETUP : IGNORE   -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript Canvas App</title> <!--The name of the tab -->
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      gap: 12px;
+      padding: 16px;
+      box-sizing: border-box;
+      background: #eef2f7;
+      font-family: system-ui, sans-serif;
+    }
+
+    canvas {
+      width: min(800px, 92vw, calc(100dvh - 10rem));
+      height: auto;
+      aspect-ratio: 1;
+      border: 2px solid #263238;
+      background: white;
+      touch-action: none;
+    }
+
+    canvas:focus-visible {
+      outline: 4px solid #4f8cff;
+      outline-offset: 3px;
+    }
+
+    h1 {
+      max-width: 92vw;
+      margin: 0;
+      font-size: clamp(1.25rem, 4vw, 2rem);
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    h1 span {
+      display: block;
+      margin-top: 4px;
+      color: #546e7a;
+      font-size: 0.55em;
+      font-weight: 500;
+    }
+
+    p {
+      margin: 0;
+      max-width: 92vw;
+      text-align: center;
+    }
+  </style>
+</head>
+<!-- END SETUP : IGNORE   -->
+
+
+<!-- The visible page content goes inside the body tag -->
+<body>
+  <h1>Canvas 1: Drawing + Model</h1>
+
+  <canvas
+    id="canvas"
+    width="400"
+    height="400"
+    style="border: 2px solid black"
+  ></canvas>
+
+  <script>
+    const WIDTH = 400;
+    const HEIGHT = 400;
+
+    const canvas = document.querySelector("#canvas");
+    const context = canvas.getContext("2d");
+
+    // ============================================================
+    // MODEL
+    // All persistent application state belongs here.
+    // ============================================================
+
+    // Create an empty object, then add properties to it. This is similar to
+    // assigning attributes such as app.playerX in CMU Graphics.
+    const model = {};
+
+    model.circles = [
+      {
+        x: 100,
+        y: 100,
+        radius: 20,
+        color: "purple"
+      },
+      {
+        x: 250,
+        y: 180,
+        radius: 30,
+        color: "green"
+      }
+    ];
+
+    // ============================================================
+    // VIEW
+    // The view reads the model and draws it. It does not modify it.
+    // Drawing is lower-level. Imagine using a pen instead of whole shapes.
+    // ============================================================
+
+    function render() {
+      context.fillStyle = "white";
+      context.fillRect(0, 0, WIDTH, HEIGHT);
+
+      for (const circle of model.circles) {
+        context.beginPath();
+        context.arc(
+          circle.x,
+          circle.y,
+          circle.radius,
+          0,
+          Math.PI * 2
+        );
+
+        context.fillStyle = circle.color;
+        context.fill();
+      }
+
+      // Draw text showing the current number of circles.
+      context.fillStyle = "#263238";
+      context.font = "18px system-ui";
+      context.fillText(`Circles: ${model.circles.length}`, 15, 28);
+    }
+
+    render();
+
+
+  </script>
+</body>
+</html>
